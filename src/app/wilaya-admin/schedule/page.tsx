@@ -62,12 +62,14 @@ export default function WilayaAdminSchedulePage() {
   useEffect(() => {
     fetchSchedules();
     fetchEligibleReservations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedDate) {
       fetchSchedules();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
   const fetchSchedules = async () => {

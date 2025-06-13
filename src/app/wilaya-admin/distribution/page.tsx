@@ -54,6 +54,7 @@ export default function WilayaAdminDistributionPage() {
 
   useEffect(() => {
     fetchDistributions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStatus, selectedDate]);
 
   const fetchDistributions = async () => {

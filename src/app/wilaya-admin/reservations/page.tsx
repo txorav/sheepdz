@@ -77,6 +77,7 @@ export default function WilayaAdminReservationsPage() {
 
   useEffect(() => {
     fetchReservations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStatus, currentPage]);
 
   const fetchReservations = async () => {
