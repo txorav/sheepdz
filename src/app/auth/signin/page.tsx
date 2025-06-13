@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Shield, ArrowLeft, AlertCircle } from "lucide-react";
+import { Shield, ArrowLeft } from "lucide-react";
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -122,7 +121,7 @@ export default function SignIn() {
 
             <div className="text-center pt-4 border-t border-slate-200">
               <p className="text-sm text-slate-600">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/auth/signup" className="font-medium text-blue-600 hover:text-blue-500">
                   Register here
                 </Link>
