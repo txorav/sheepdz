@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -32,7 +32,7 @@ export default function CustomerNotificationsPage() {
       } else {
         setError(data.error || 'Failed to fetch notifications');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to fetch notifications');
     } finally {
       setLoading(false);

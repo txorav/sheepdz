@@ -1,6 +1,15 @@
 // scripts/comprehensive-seed.ts
 import { PrismaClient } from '../src/generated/prisma';
-import * as bcrypt from 'bcryptjs';
+import * as  const createdImports = [];
+  for (const importData of sheepImports) {
+    const sheepImport = await prisma.sheepImport.create({
+      data: {
+        ...importData,
+        status: importData.status as 'PENDING' | 'ARRIVED' | 'DISTRIBUTED',
+      },
+    });
+    createdImports.push(sheepImport);
+  }om 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -103,7 +112,7 @@ async function main() {
     const sheepImport = await prisma.sheepImport.create({
       data: {
         ...importData,
-        status: importData.status as any,
+        status: importData.status as 'PENDING' | 'ARRIVED' | 'DISTRIBUTED',
       },
     });
     createdImports.push(sheepImport);
@@ -195,7 +204,6 @@ async function main() {
   for (let i = 0; i < customerNames.length; i++) {
     const name = customerNames[i];
     const email = `customer${i + 1}@example.com`;
-    const address = `${Math.floor(Math.random() * 100) + 1} Rue de la République, ${createdWilayas[i % createdWilayas.length].name}`;
     
     const customer = await prisma.user.create({
       data: {

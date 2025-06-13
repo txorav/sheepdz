@@ -74,7 +74,7 @@ async function main() {
   console.log('Wilaya allocations created');
 
   // Create an admin user
-  const bcrypt = require('bcryptjs');
+  const bcrypt = await import('bcryptjs');
   const hashedPassword = await bcrypt.hash('admin123', 10);
   
   await prisma.user.upsert({
