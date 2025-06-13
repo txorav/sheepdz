@@ -80,7 +80,7 @@ export default function WilayaAdminSchedulePage() {
       } else {
         setError(data.error || 'Failed to fetch schedules');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to fetch schedules');
     } finally {
       setLoading(false);
@@ -94,7 +94,7 @@ export default function WilayaAdminSchedulePage() {
 
       if (response.ok) {
         // Filter reservations that don't have pickup scheduled yet
-        const unscheduled = data.reservations.filter((res: any) => 
+        const unscheduled = data.reservations.filter((res: { distribution?: { pickedUpAt?: string } }) => 
           !res.distribution || !res.distribution.pickedUpAt
         );
         setEligibleReservations(unscheduled);
@@ -145,7 +145,7 @@ export default function WilayaAdminSchedulePage() {
       } else {
         setError(data.error || 'Failed to create schedule');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to create schedule');
     } finally {
       setLoading(false);
