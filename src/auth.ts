@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import { JWT } from "next-auth/jwt"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 
@@ -57,7 +58,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt"
   },
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }: { token: JWT; user?: any }) {
       if (user) {
         token.role = user.role
         token.wilayaId = user.wilayaId
@@ -65,12 +66,12 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: { session: any; token: JWT }) {
       if (token && session.user) {
         session.user.id = token.sub!
         session.user.role = token.role as string
         session.user.wilayaId = token.wilayaId as string
-        session.user.wilaya = token.wilaya as any
+        session.user.wilaya = token.wilaya as { id: string; name: string; code: string }
       }
       return session
     }

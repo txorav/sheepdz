@@ -16,7 +16,12 @@ interface WilayaAllocation {
   allocatedQuantity: number;
   remainingQuantity: number;
   wilaya: Wilaya;
-  reservations: any[];
+  reservations: Array<{
+    id: string;
+    quantity: number;
+    status: string;
+    familyNotebookNumber: string;
+  }>;
 }
 
 interface SheepImport {
@@ -94,8 +99,8 @@ export default function AllocationManager({ sheepImport, allWilayas }: Allocatio
       setSelectedWilayaId('');
       setQuantity('');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
