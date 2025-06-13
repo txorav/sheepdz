@@ -58,7 +58,8 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt"
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: { id: string; role: string; wilayaId?: string; wilaya?: any } }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: { token: JWT; user?: any }) {
       if (user) {
         token.role = user.role
         token.wilayaId = user.wilayaId
@@ -66,7 +67,8 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-    async session({ session, token }: { session: { user?: any; expires: string }; token: JWT }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: { session: any; token: JWT }) {
       if (token && session.user) {
         session.user.id = token.sub!
         session.user.role = token.role as string
