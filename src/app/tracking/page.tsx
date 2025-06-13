@@ -1,4 +1,5 @@
 // src/app/tracking/page.tsx
+import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 
 export default async function TrackingPage() {
@@ -56,9 +57,9 @@ export default async function TrackingPage() {
               <h1 className="text-xl font-bold text-gray-800">🇩🇿 Sheep Distribution Tracking</h1>
             </div>
             <div className="flex space-x-4">
-              <a href="/" className="text-blue-600 hover:text-blue-800 font-medium">
+              <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">
                 Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>

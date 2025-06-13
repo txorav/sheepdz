@@ -59,7 +59,7 @@ export default async function CustomerReservationsPage({
         <div className="bg-white shadow rounded-lg p-8 text-center">
           <div className="text-6xl mb-4">🐏</div>
           <h2 className="text-xl font-semibold text-gray-700 mb-2">No Reservations Yet</h2>
-          <p className="text-gray-600 mb-6">You haven't made any sheep reservations yet.</p>
+          <p className="text-gray-600 mb-6">You haven&apos;t made any sheep reservations yet.</p>
           <Link 
             href="/customer/reserve" 
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg"
