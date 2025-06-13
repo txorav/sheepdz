@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                   String   @id @default(uuid())
+  name                 String?
+  email                String   @unique
+  emailVerified        DateTime?
+  password             String
+  role                 Role     @default(CUSTOMER)
+  wilaya               Wilaya?  @relation(fields: [wilayaId], references: [id])
+  wilayaId             String?
+  familyNotebookNumber String?  @unique
+  reservations         Reservation[]
+  notifications        Notification[]
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  WILAYA_ADMIN
+  CUSTOMER
+}
+
+model Wilaya {
+  id                String           @id @default(uuid())
+  name              String           @unique
+  code              String           @unique
+  communes          Commune[]
+  users             User[]
+  wilayaAllocations WilayaAllocation[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Commune {
+  id        String   @id @default(uuid())
+  name      String
+  wilaya    Wilaya  @relation(fields: [wilayaId], references: [id])
+  wilayaId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SheepImport {
+  id                String     @id @default(uuid())
+  batchName         String?
+  batchNumber       String?    @unique
+  importDate        DateTime
+  totalQuantity     Int
+  remainingQuantity Int
+  originCountry     String
+  status            ImportStatus @default(PENDING)
+  wilayaAllocations WilayaAllocation[]
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+model WilayaAllocation {
+  id            String      @id @default(uuid())
+  sheepImport   SheepImport @relation(fields: [sheepImportId], references: [id])
+  sheepImportId String
+  wilaya        Wilaya      @relation(fields: [wilayaId], references: [id])
+  wilayaId      String
+  allocatedQuantity Int
+  remainingQuantity Int
+  reservations  Reservation[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+enum ImportStatus {
+  PENDING
+  ARRIVED
+  DISTRIBUTED
+}
+
+model Reservation {
+  id                   String            @id @default(uuid())
+  user                 User              @relation(fields: [userId], references: [id])
+  userId               String
+  wilayaAllocation     WilayaAllocation  @relation(fields: [wilayaAllocationId], references: [id])
+  wilayaAllocationId   String
+  quantity             Int               @default(1)
+  familyNotebookNumber String
+  status               ReservationStatus @default(PENDING)
+  payment              Payment?
+  distribution         Distribution?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  PICKED_UP
+}
+
+model Payment {
+  id            String      @id @default(uuid())
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
+  reservationId String      @unique
+  amount        Float
+  status        PaymentStatus @default(PENDING)
+  paidAt        DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+model Distribution {
+  id            String      @id @default(uuid())
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
+  reservationId String      @unique
+  pickedUpAt    DateTime?
+  confirmedBy   String? // Admin or wilaya admin userId
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
