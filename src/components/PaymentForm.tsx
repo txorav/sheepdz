@@ -52,8 +52,8 @@ export default function PaymentForm({ reservationId, amount, existingPayment }: 
       setTimeout(() => {
         router.push(`/customer/reservations/${reservationId}?payment=success`);
       }, 2000);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
