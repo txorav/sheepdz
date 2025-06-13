@@ -23,7 +23,6 @@ interface WilayaAllocation {
 }
 
 export default function ReservePage() {
-  const { data: session } = useSession();
   const router = useRouter();
   const [wilayas, setWilayas] = useState<Wilaya[]>([]);
   const [selectedWilayaId, setSelectedWilayaId] = useState('');
@@ -101,8 +100,8 @@ export default function ReservePage() {
 
       // Redirect to reservations page on success
       router.push('/customer/reservations?success=true');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
